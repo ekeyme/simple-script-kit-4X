@@ -8,7 +8,8 @@ A collection of simple scripts to help you use PC/Linux/Mac easily.
   name space(descripted in [here](https://support.microsoft.com/zh-cn/kb/320081#locale-picker-link)).
 
 ### Linux
-  - ...
+  - ***rev_comp.sh*** A bash shell help you convert a DNA sequence into its **reverse**, 
+  **complement**, or **reverse-complement** counterpart.
 
 ### Mac
   - ...

@@ -20,7 +20,7 @@ if %input% == %shutdown_now_para% %shutdown% -s -t 0 & goto end
 if %input% == %cancel_para% %shutdown% -a & goto end
 
 set/a time=60*%input%
-if %time% GTR 0 (%shutdown% -s -t %time%) else echo Error: The time must be int value and bigger than 0. Input again: & goto start
+if %time% GTR 0 (%shutdown% -s -f -t %time%) else echo Error: The time must be int value and bigger than 0. Input again: & goto start
 
 :end
 Pause

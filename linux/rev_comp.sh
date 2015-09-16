@@ -2,7 +2,7 @@
 #
 # 此脚本可反转基因字符序列，并能转换成互补基因序列。
 # 可用于测序序列分析，特别适合懒得开或者没有下载序列分析软件。
-# Make it for fun. @ekeyme
+# Make it for fun. ekeyme
 
 # Set separator = newline
 IFS='
@@ -11,33 +11,42 @@ IFS='
 PATH=/usr/local/bin:/bin:/usr/bin
 export PATH
 
-rev=no
-com=no
+PROGRAM=$(basename $0)
+reverse=no
+complement=no
 
+# display usage
 usage() {
 	cat <<EOF
-用法：
-		rev_comp [-c|-r|--help] gene_sequence_file
-
-选项:	-c 转换基因序列，呈现其互补序列
-		-r 反转基因序列
-
-!注:	不提供如何选项，不作改变。
+Usage: $PROGRAM [-c|-r|-rc|--help] gene_sequence_file
+Options:
+	-c: complement
+	-r: reverse
+	-rc: reverse and complement
 EOF
-	exit
 }
 
+# output error and exit 1
+error() {
+	echo "$@" 1>&2
+	usage_and_exit 1
+}
+
+# print usage and exit program
+#- param1: int, exit number
+usage_and_exit() {
+	usage
+	exit $1
+}
+
+# complement sequence
+#- param1: string, gene sequence 
 complement() {
-	seq=`echo "$1" | sed \
-		-e 's/A/大/g' -e 's/a/小/g' \
-		-e 's/T/A/g' -e 's/t/a/g' \
-		-e 's/大/T/g' -e 's/小/t/g' \
-		-e 's/G/大/g' -e 's/g/小/g' \
-		-e 's/C/G/g' -e 's/c/g/g' \
-		-e 's/大/C/g' -e 's/小/c/g' \
-		`
+	echo $1 | tr 'ATGCatgc' 'TACGtacg'
 }
 
+#---
+#parse param
 while [ $# -gt 0 ]
 do
 	case $1 in
@@ -45,10 +54,13 @@ do
 		;;
 	-r ) rev=yes
 		;;
-	--help ) usage
+	-rc|-cr ) 
+		rev=yes
+		com=yes
 		;;
-	-* ) echo "无法识别选项: $1" >&2
-		 exit 1
+	--help|-h|- ) usage_and_exit
+		;;
+	-* ) error "Invalid param: $1"
 		;;
 	* ) break
 		;;
@@ -56,14 +68,10 @@ do
 	shift
 done
 
-[ -z $1 ] && {
-	echo "没有可用基因序列！" >&2
-	exit 1
-	}
-
+[ -z $1 ] && error "No sequence input."
 [ -f $1 ] && seq=`cat $1` || seq="$1"
 
-[ "$com" = yes ] && complement "$seq"
+# reverse or complement
+[ "$com" = yes ] && seq=`complement "$seq"`
 [ "$rev" = yes ] && seq=`echo "$seq" | rev`
-
 echo "$seq"

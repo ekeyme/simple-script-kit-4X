@@ -30,9 +30,6 @@ def getOpts(optList):
 		# Long options
 		elif re.fullmatch('--pattern=.*', i):
 			pattern = re.fullmatch('--pattern=(.*)', i).group(1)
-			if len(pattern) == 0:
-				print('Pattern should not be empty')
-				exit(1)
 		elif re.fullmatch('--blockDelimiter=.*', i):
 			blockDelimiter = re.fullmatch('--blockDelimiter=(.*)', i).group(1)
 		elif re.fullmatch('--outDelimiter=.*', i):
@@ -40,6 +37,9 @@ def getOpts(optList):
 		elif re.fullmatch('--.*', i): usageAndExit(0)
 		else: inputFile = i
 
+	if len(pattern) == 0:
+		print('Pattern should not be empty.')
+		exit(1)
 	return(inputFile, pattern, isUniq, blockDelimiter, outDelimiter)
 
 

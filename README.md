@@ -11,6 +11,9 @@ A collection of simple scripts to help you use PC/Linux/Mac easily.
   - ***gseqrc.bash*** Gene sequence reverse&complement. A bash shell help you convert a DNA sequence into its **reverse**, 
   **complement**, or **reverse-complement** counterpart.
 
+### Python
+  - ***patternFilterInLine.py*** Find strings matching pattern in line.
+
 ### Mac
   - ...
 

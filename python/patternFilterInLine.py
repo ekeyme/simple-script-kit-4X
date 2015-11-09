@@ -58,7 +58,7 @@ def patternFilterInline(inputFile, pattern, isUniq = False, blockDelimiter = '|'
 						if isUniq and len(outputLine) > 0: continue
 						outputLine += matchs.group(0) + outDelimiter
 
-				print(outputLine.rstrip('|'))
+				print(outputLine.rstrip(outDelimiter))
 	except:
 		print('File error: [' + inputFile + ']')
 		exit(1)
